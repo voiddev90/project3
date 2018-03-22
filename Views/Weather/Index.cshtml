@@ -2,8 +2,59 @@
     ViewData["title"] = "Weer en criminaliteit";
 }
 
-<div class="row">
+<!--<div class="row">
     <div class="col-md-12">
-        <p>Hier komt de html van groep B</p>
+        <h3>Klik op de markers om een disctrict/wijk te kunnen kiezen, Rechts van de map kunt u filteren op wat u wilt zien.</h3>
     </div>
-</div>
+</div> -->
+
+<h3> Hier komt al de informatie en de graphs</h3>
+<style>
+ #map {
+   width: 50%;
+   height: 750px;
+ }
+</style>
+    
+    <script>
+function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12.2,
+            center: {lat: 51.924, lng: 4.477}
+        });
+
+        // Create an array of alphabetical characters used to label the markers.
+        var labels = '1234567891011';
+
+        // Add some markers to the map.
+        // Note: The code uses the JavaScript Array.prototype.map() method to
+        // create an array of markers based on a given "locations" array.
+        // The map() method here has nothing to do with the Google Maps API.
+        var markers = locations.map(function(location, i) {
+            return new google.maps.Marker({
+                position: location,
+                label: labels[i % labels.length]
+            });
+        });
+
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+    }
+    var locations = [
+        {lat: 51.916, lng: 4.398},
+        {lat: 51.912, lng: 4.349},
+        {lat: 51.904, lng: 4.509},
+        {lat: 51.938, lng: 4.431},
+        {lat: 51.952, lng: 4.489},
+        {lat: 51.893, lng: 4.523},
+    ]
+    </script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX-JucsIHReIlEkpq6mWQaEzmQAWeRzco&callback=initMap">
+
+</script>
+    </div>
