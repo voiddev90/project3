@@ -33,3 +33,9 @@
         display: none;
     }
 }
+
+#map {
+    height: 90%;
+    width: 70%;
+    position:absolute;
+}
