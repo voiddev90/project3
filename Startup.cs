@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using project3data.Models;
 
 namespace project_3_data
 {
@@ -22,6 +23,7 @@ namespace project_3_data
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.Add(new ServiceDescriptor(typeof(DistrictStoreContext), new DistrictStoreContext(Configuration.GetConnectionString("database"))));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
