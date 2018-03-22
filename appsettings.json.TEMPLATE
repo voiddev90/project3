@@ -4,5 +4,8 @@
     "LogLevel": {
       "Default": "Warning"
     }
+  },
+  "ConnectionStrings": {
+    "database": "Server=127.0.0.1;Database=project3;Uid=root;Pwd="
   }
 }

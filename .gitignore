@@ -55,6 +55,7 @@ TestResults/
 ######################
 *.log
 *.sqlite
+appsettings.json
 # OS generated files #
 ######################
 .DS_Store?
