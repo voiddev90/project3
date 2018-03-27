@@ -14,8 +14,8 @@ namespace project3data.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            DistrictStoreContext district = HttpContext.RequestServices.GetService(typeof(project3data.Models.DistrictStoreContext)) as DistrictStoreContext;
-            return View(district.getAllDistricts());
+            // DistrictStoreContext district = HttpContext.RequestServices.GetService(typeof(project3data.Models.DistrictStoreContext)) as DistrictStoreContext;
+            return View();
         }
     }
 }
