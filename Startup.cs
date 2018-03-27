@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using project3data.Models;
+using Microsoft.EntityFrameworkCore;
+using project3data.Data;
 
 namespace project_3_data
 {
@@ -22,8 +24,11 @@ namespace project_3_data
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DatabaseContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("database")));
             services.AddMvc();
-            services.Add(new ServiceDescriptor(typeof(DistrictStoreContext), new DistrictStoreContext(Configuration.GetConnectionString("database"))));
+            // services.Add(new ServiceDescriptor(typeof(DistrictStoreContext), new DistrictStoreContext(Configuration.GetConnectionString("database"))));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

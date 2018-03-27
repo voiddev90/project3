@@ -6,8 +6,6 @@ namespace project3data.Models
 {
     public class District
     {
-        private DistrictStoreContext context;
-
         public int id { get; set; }
 
         public string name { get; set; }
