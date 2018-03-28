@@ -1,13 +1,7 @@
-﻿@model IEnumerable<project3data.Models.District>
-@{
+﻿@{
     ViewData["title"] = "Test page";
+    var districts = ViewData["districts"];
 }
 <p>Dit is een test</p>
 
-
-@foreach (var district in Model)
-{
-    <p>id: @district.id</p>
-    <p>name: @district.name</p>
-    <p>long: @district.longitude</p><br>
-}
+@districts

@@ -24,10 +24,8 @@ namespace project_3_data
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DatabaseContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("database")));
+            services.AddDbContext<DatabaseContext>(options => options.UseMySql(Configuration.GetConnectionString("database")));
             services.AddMvc();
-            // services.Add(new ServiceDescriptor(typeof(DistrictStoreContext), new DistrictStoreContext(Configuration.GetConnectionString("database"))));
 
         }
 
