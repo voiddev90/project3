@@ -4,4 +4,7 @@
 }
 <p>Dit is een test</p>
 
-@districts
+<script>
+    var json = JSON.parse('@Html.Raw(districts)');
+    console.log(json);
+</script>
