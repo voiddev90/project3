@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["title"] = "criminaliteit in Rotterdam";
+    var districts = ViewData["districts"];
 }
 
 <!--<div class="row">
@@ -50,6 +51,9 @@ function initMap() {
         {lat: 51.952, lng: 4.489},
         {lat: 51.893, lng: 4.523},
     ]
+
+    var json = JSON.parse('@Html.Raw(districts)');
+    console.log(json);
     </script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script>
