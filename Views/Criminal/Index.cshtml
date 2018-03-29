@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["title"] = "criminaliteit in Rotterdam";
     var districts = ViewData["districts"];
+    var streetCrime = ViewData["streetCrimes"];
+    var bicycleCrimes = ViewData["bicycleCrimes"];
 }
 
 <!--<div class="row">
@@ -16,8 +18,11 @@
    height: 750px;
  }
 </style>
-   <div id="map">
-    <script>
+   <!-- <div id="map"></div> -->
+   <canvas id="chart" width="400" height="200"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script>
 function initMap() {
 
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -52,8 +57,36 @@ function initMap() {
         {lat: 51.893, lng: 4.523},
     ]
 
-    var json = JSON.parse('@Html.Raw(districts)');
-    console.log(json);
+    var ctx = document.getElementById('chart').getContext('2d');
+    var districts = JSON.parse('@Html.Raw(districts)');
+    var streetCrime = JSON.parse('@Html.Raw(streetCrime)');
+    var bicycleCrimes = JSON.parse('@Html.Raw(bicycleCrimes)');
+
+        var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: districts,
+            datasets: [{
+                label: "Staatroof",
+                data: streetCrime,
+                backgroundColor: "blue"
+            },
+            {
+                label: "Fietsendiefstal",
+                data: bicycleCrimes,
+                backgroundColor: "red"
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
     </script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script>

@@ -7,6 +7,7 @@ using project3data.Models;
 using project3data.Data;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Globalization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,10 +24,35 @@ namespace project3data.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            string json = JsonConvert.SerializeObject(this.database.Districts);
+            var streetCrimes = this.database.StreetCrimes
+            .Where(x => x.id > 0)
+            .GroupBy(s => new {district = s.district})
+            .Select(x => new { total = x.Count(), district = x.Key.district})
+            .ToList();
 
-            ViewData["districts"] = json;
+            var bicycleCrimes = this.database.BicycleCrimes
+            .Where(x => x.id > 0)
+            .GroupBy(s => new {district = s.district})
+            .Select(x => new { total = x.Count(), district = x.Key.district})
+            .ToList();
+            
+            List<string> districts = new List<string>();
+            List<int> streetData = new List<int>();
+            List<int> bicycleCrimesData = new List<int>();
+            foreach(var crime in streetCrimes)
+            {
+                districts.Add(crime.district.name);
+                streetData.Add(crime.total);
+            }
 
+            foreach(var crime in bicycleCrimes)
+            {
+                bicycleCrimesData.Add(crime.total);
+            }
+
+            ViewData["districts"] = JsonConvert.SerializeObject(districts);
+            ViewData["streetCrimes"] = JsonConvert.SerializeObject(streetData);
+            ViewData["bicycleCrimes"] = JsonConvert.SerializeObject(bicycleCrimesData);
             return View();
         }
     }
