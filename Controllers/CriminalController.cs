@@ -19,11 +19,11 @@ namespace project3data.Controllers
             database = context;
         }
 
-        // GET: /<controller>/
-        public IActionResult Index()
+        public IActionResult Index(int year)
         {
             var streetCrimes = this.database.StreetCrimes
             .Where(x => x.id > 0)
+
             .GroupBy(s => new {district = s.district})
             .Select(x => new { total = x.Count(), district = x.Key.district})
             .ToList();
@@ -53,6 +53,31 @@ namespace project3data.Controllers
             ViewData["bicycleCrimes"] = JsonConvert.SerializeObject(bicycleCrimesData);
             
             return View();
+        }
+
+        public JsonResult GetStreetCrimeData(int year)
+        {
+            if(year == 2011 || year == 2012)
+            {
+                var streetCrimes = (this.database.StreetCrimes
+                .Where(x => x.id > 0 && x.registerDate.Year == year)
+                .GroupBy(s => new {district = s.district})
+                .Select(x => x.Count())
+                .ToList());
+                return Json(streetCrimes);
+            } else {
+                var streetCrimes = this.database.StreetCrimes
+                .Where(x => x.id > 0)
+                .GroupBy(s => new {district = s.district})
+                .Select(x => x.Count())
+                .ToList();
+                return Json(streetCrimes);
+            }
+        }
+
+        public JsonResult GetBicycleCrimesData(DateTime year)
+        {
+            return Json("bicycle crime " + year.Year);
         }
     }
 }

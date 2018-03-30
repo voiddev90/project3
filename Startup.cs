@@ -46,6 +46,16 @@ namespace project_3_data
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "GetStreetCrimeData",
+                    template: "{controller=Criminal}/{action=GetStreetCrimeData}/{year}"
+                );
+
+                routes.MapRoute(
+                    name: "bicycleCrime",
+                    template: "{controller=Criminal}/{action=GetBicycleCrimesData}/{year}"
+                );
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
