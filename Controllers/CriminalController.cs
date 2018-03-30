@@ -21,36 +21,9 @@ namespace project3data.Controllers
 
         public IActionResult Index(int year)
         {
-            var streetCrimes = this.database.StreetCrimes
-            .Where(x => x.id > 0)
 
-            .GroupBy(s => new {district = s.district})
-            .Select(x => new { total = x.Count(), district = x.Key.district})
-            .ToList();
 
-            var bicycleCrimes = this.database.BicycleCrimes
-            .Where(x => x.id > 0)
-            .GroupBy(s => new {district = s.district})
-            .Select(x => new { total = x.Count(), district = x.Key.district})
-            .ToList();
-            
-            List<string> districts = new List<string>();
-            List<int> streetData = new List<int>();
-            List<int> bicycleCrimesData = new List<int>();
-            foreach(var crime in streetCrimes)
-            {
-                districts.Add(crime.district.name);
-                streetData.Add(crime.total);
-            }
-
-            foreach(var crime in bicycleCrimes)
-            {
-                bicycleCrimesData.Add(crime.total);
-            }
-
-            ViewData["districts"] = JsonConvert.SerializeObject(districts);
-            ViewData["streetCrimes"] = JsonConvert.SerializeObject(streetData);
-            ViewData["bicycleCrimes"] = JsonConvert.SerializeObject(bicycleCrimesData);
+            ViewData["districts"] = JsonConvert.SerializeObject((this.database.Districts.Select(x => x.name)));
             
             return View();
         }
@@ -75,9 +48,27 @@ namespace project3data.Controllers
             }
         }
 
-        public JsonResult GetBicycleCrimesData(DateTime year)
+        public JsonResult GetBicycleCrimesData(int year)
         {
-            return Json("bicycle crime " + year.Year);
+            if(year == 2011 || year == 2012)
+            {
+                var bicycleCrimes = this.database.BicycleCrimes
+                .Where(x => x.id > 0 && x.registerDate.Year == year)
+                .GroupBy(s => new {district = s.district})
+                .Select(x => x.Count())
+                .ToList();
+                return Json(bicycleCrimes);
+            }
+            else
+            {
+                var bicycleCrimes = this.database.BicycleCrimes
+                .Where(x => x.id > 0)
+                .GroupBy(s => new {district = s.district})
+                .Select(x => x.Count())
+                .ToList();
+                return Json(bicycleCrimes);
+            }
+            
         }
     }
 }

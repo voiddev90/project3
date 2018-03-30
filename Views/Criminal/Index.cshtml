@@ -1,8 +1,6 @@
 ﻿@{
     ViewData["title"] = "criminaliteit in Rotterdam";
     var districts = ViewData["districts"];
-    var streetCrime = ViewData["streetCrimes"];
-    var bicycleCrimes = ViewData["bicycleCrimes"];
 }
 
 <!--<div class="row">
@@ -34,6 +32,11 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 <script>
+
+    $(document).ready(function() {
+        getStreetCrimes();
+        GetBicycleCrimes();
+    });
 function initMap() {
 
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -70,24 +73,13 @@ function initMap() {
 
     var ctx = $("#chart");
     var districts = JSON.parse('@Html.Raw(districts)');
-    var streetCrime = JSON.parse('@Html.Raw(streetCrime)');
-    var bicycleCrimes = JSON.parse('@Html.Raw(bicycleCrimes)');
+    var chartData = [];
 
         var chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: districts,
-            datasets: [{
-                label: "Staatroof",
-                data: streetCrime,
-                backgroundColor: "blue",
-                hidden: true
-            },
-            {
-                label: "Fietsendiefstal",
-                data: bicycleCrimes,
-                backgroundColor: "red"
-            }]
+            datasets: chartData
         },
         options: {
             scales: {
@@ -102,18 +94,38 @@ function initMap() {
 
     $("#selectYear").change(function() {
         var year = this.value;
-        
-        $.getJSON("/criminal/GetStreetCrimeData/" + year, function(data) {
-        chart.data.datasets[0].data = data
-        chart.update();
-        });
-        
-        
-
+        var type = $("#selectType").value;
+        console.log(type);
     });
 
+    function getStreetCrimes(year = "")
+    {
+        $.getJSON("/criminal/GetStreetCrimeData/" + year, function(crimeData) {
+            var dataset = {
+                label: "Straatroof",
+                data: crimeData,
+                backgroundColor: "blue"
+            }
+            chartData.push(dataset);
+            chart.update();
+        });
+    }
 
-    </script>
+    function GetBicycleCrimes(year = "")
+    {
+        $.getJSON("/criminal/GetBicycleCrimesData/" + year, function(crimeData) {
+            var dataset = {
+                label: "Fietsendiefstal",
+                data: crimeData,
+                backgroundColor: "red"
+            }
+            chartData.push(dataset);
+            chart.update();
+        });
+    }
+
+
+</script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script>
 <script async defer
