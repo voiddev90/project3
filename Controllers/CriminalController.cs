@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,7 @@ namespace project3data.Controllers
 
 
             ViewData["districts"] = JsonConvert.SerializeObject((this.database.Districts.Select(x => x.name)));
+            ViewData["months"] = JsonConvert.SerializeObject(DateTimeFormatInfo.CurrentInfo.MonthNames);
             
             return View();
         }

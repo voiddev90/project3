@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["title"] = "criminaliteit in Rotterdam";
     var districts = ViewData["districts"];
+    var months = ViewData["months"];
 }
 
 <!--<div class="row">
@@ -73,13 +74,13 @@ function initMap() {
 
     var ctx = $("#chart");
     var districts = JSON.parse('@Html.Raw(districts)');
-    var chartData = [];
+    var months = JSON.parse('@Html.Raw(months)');
 
         var chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: districts,
-            datasets: chartData
+            datasets: []
         },
         options: {
             scales: {
@@ -94,34 +95,41 @@ function initMap() {
 
     $("#selectYear").change(function() {
         var year = this.value;
-        var type = $("#selectType").value;
-        console.log(type);
+        clearChartData();
+        getStreetCrimes(year);
+        GetBicycleCrimes(year);
     });
 
     function getStreetCrimes(year = "")
     {
         $.getJSON("/criminal/GetStreetCrimeData/" + year, function(crimeData) {
-            var dataset = {
-                label: "Straatroof",
-                data: crimeData,
-                backgroundColor: "blue"
-            }
-            chartData.push(dataset);
-            chart.update();
+            addChartData("Straatroof", crimeData, "blue")
         });
     }
 
     function GetBicycleCrimes(year = "")
     {
         $.getJSON("/criminal/GetBicycleCrimesData/" + year, function(crimeData) {
-            var dataset = {
-                label: "Fietsendiefstal",
-                data: crimeData,
-                backgroundColor: "red"
-            }
-            chartData.push(dataset);
-            chart.update();
+            addChartData("Fietsendiefstal", crimeData, "red")
         });
+    }
+
+    function addChartData(label, data, backgroundColor)
+    {
+        var dataset = {
+                label: label,
+                data: data,
+                backgroundColor: backgroundColor
+            }
+        chart.data.datasets.push(dataset);
+        chart.update();
+    }
+
+    function clearChartData()
+    {
+        chartData = [];
+        chart.data.datasets = [];
+        chart.update();
     }
 
 
