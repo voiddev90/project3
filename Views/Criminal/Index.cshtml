@@ -1,7 +1,5 @@
 ﻿@{
     ViewData["title"] = "criminaliteit in Rotterdam";
-    var districts = ViewData["districts"];
-    var months = ViewData["months"];
 }
 
 <!--<div class="row">
@@ -19,14 +17,13 @@
 </style>
    <!-- <div id="map"></div> -->
    <canvas id="chart" width="400" height="200"></canvas>
-   <select id="selectYear">
+   <select id="selectYear" onchange="getNewData();">
        <option value="">Alle jaren</option>
        <option value="2011">2011</option>
        <option value="2012">2012</option>
    </select>
 
-   <select id="selectType">
-       <option value="">Alles</option>
+   <select id="selectType" onchange="getNewData();">
        <option value="GetStreetCrimeData">Straatroof</option>
        <option value="GetBicycleCrimesData">Fietsendiefstal</option>
    </select>
@@ -35,8 +32,7 @@
 <script>
 
     $(document).ready(function() {
-        getStreetCrimes();
-        GetBicycleCrimes();
+        getCrimesData("GetStreetCrimeData");
     });
 function initMap() {
 
@@ -73,13 +69,13 @@ function initMap() {
     ]
 
     var ctx = $("#chart");
-    var districts = JSON.parse('@Html.Raw(districts)');
-    var months = JSON.parse('@Html.Raw(months)');
+    var months = ["Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"]
+    var chartColors = ["#3366cc", "#ff0000", "#99ff66", "#6600ff", "#ccccff", "#ff9900", "#00ffff", "#666699"]
 
         var chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: districts,
+            labels: months,
             datasets: []
         },
         options: {
@@ -93,35 +89,34 @@ function initMap() {
         }
     });
 
-    $("#selectYear").change(function() {
-        var year = this.value;
+    function getNewData()
+    {
+        var year =  $("#selectYear :selected").val();
+        var type = $("#selectType :selected").val();
         clearChartData();
-        getStreetCrimes(year);
-        GetBicycleCrimes(year);
-    });
+        getCrimesData(type, year);
+    }
 
-    function getStreetCrimes(year = "")
+    function getCrimesData(type, year = "")
     {
-        $.getJSON("/criminal/GetStreetCrimeData/" + year, function(crimeData) {
-            addChartData("Straatroof", crimeData, "blue")
+        $.getJSON("/criminal/" + type + "/" + year, function(crimeData) {
+            addChartData(crimeData)
         });
     }
 
-    function GetBicycleCrimes(year = "")
+    function addChartData(data)
     {
-        $.getJSON("/criminal/GetBicycleCrimesData/" + year, function(crimeData) {
-            addChartData("Fietsendiefstal", crimeData, "red")
-        });
-    }
-
-    function addChartData(label, data, backgroundColor)
-    {
-        var dataset = {
-                label: label,
-                data: data,
-                backgroundColor: backgroundColor
+        var datasets = [];
+        var colorPick = 0;
+        $.each(data, function(k, v) {
+            var dataset = {
+                label: k,
+                data: v,
+                backgroundColor: chartColors[colorPick]
             }
-        chart.data.datasets.push(dataset);
+            colorPick++;
+            chart.data.datasets.push(dataset);
+        });
         chart.update();
     }
 

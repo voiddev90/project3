@@ -51,7 +51,7 @@ namespace project_3_data
                 );
 
                 routes.MapRoute(
-                    name: "bicycleCrime",
+                    name: "bicycleCrimeData",
                     template: "{controller=Criminal}/{action=GetBicycleCrimesData}/{year}"
                 );
 
