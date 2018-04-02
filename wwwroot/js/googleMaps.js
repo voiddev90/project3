@@ -1,13 +1,13 @@
 $(document).ready(function () {
     var locations = [
-        ['Ridderkerk, District 9',51.872312, 4.532820, "9"],
-        ['Vlaardingen, District 1', 51.912, 4.349, "1"],
-        ['Schiedamse weg, District 3', 51.913056, 4.432016, "3"],
-        ['Hillegersberg, District 5', 51.943636, 4.473540, "5"],
-        ['Hoogvliet, Disctrict 10', 51.860764, 4.354568, "10"],
-        ['Eendrachtsplein, Disctrict 4', 51.916778, 4.472920, "4"],
-        ['Kralingen, district 6', 51.924895, 4.507620, "6"],
-        ['Putten, district 11', 51.876507, 4.473627, "11"],
+        ['Rotterdam-Zuidoost, Ridderkerk',51.872312, 4.532820, "9"],
+        ['Vlaardingen, Maassluis, Hoek van Holland', 51.912, 4.349, "1"],
+        ['Schiedamse weg', 51.913056, 4.432016, "3"],
+        ['Hillegersberg, Provenierswijk, Ouden Noorden(HPO), Bergschenkhoek, Berkel en Rodenrijs, Bleiwswijk(B-driehoek)', 51.943636, 4.473540, "5"],
+        ['Charlois, Hoogvliet, Rozenbburg, Barendrecht/ Albrandswaard', 51.860764, 4.354568, "10"],
+        ['Eendrachtsplein', 51.916778, 4.472920, "4"],
+        ['Kralingen/Crooswijk/Alexander, Capelle/Krimpen', 51.924895, 4.507620, "6"],
+        ['Putten, Voorne, Dirksland, Goedereede, Middelharnis, Flakkee Oosr', 51.876507, 4.473627, "11"],
     ];
   
    
