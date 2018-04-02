@@ -1,7 +1,36 @@
 @{
-    ViewData["title"] = "Weer en criminaliteit";
+    ViewData["title"] = "Weer en Criminaliteit";
 }
 
-<h3> Hier komt al de informatie en de graphs</h3>
+<h3> Weer en criminaliteit </h3>
+<p> Hier kunt u de gegevens vinden over de criminaliteit per weeromstandigheid. U ziet een map met de districten en eronder de grafiek. Onder de grafiek kunt u filteren naar uw wens.</p>
+   
 
-@await Html.PartialAsync("_map")
+
+   <canvas id="chart" width="400" height="200"></canvas>
+   <select id="selectYear" onchange="getNewData();">
+       <option value="">Alle jaren</option>
+       <option value="2011">2011</option>
+       <option value="2012">2012</option>
+   </select>
+
+   <select id="selectType" onchange="getNewData();">
+       <option value="GetStreetCrimeData">Straatroof</option>
+       <option value="GetBicycleCrimesData">Fietsendiefstal</option>
+   </select>
+
+   <select id="selecType" onchange="getNewData();">
+        <option value="">Alle seizoenen</option>
+        <option value="GetLenteData">Lenten</option>
+        <option value="GetZomerData">Zomer</option>
+        <option value="GetHerfstData">Herfst</option>
+        <option value="GetWinterData">Winter</option>
+
+    </select>
+       @await Html.PartialAsync("_map")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script src="~/js/criminal.js"></script>
+
+
+
+
