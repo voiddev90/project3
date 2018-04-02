@@ -1,14 +1,19 @@
 $(document).ready(function () {
     var locations = [
-        ['Vlaardingen', 51.912, 4.349],
-        ['Rotterdam', 51.904, 4.509],
-        ['Overschie', 51.938, 4.431],
-        ['Hillegersberg', 51.952, 4.489],
-        ['Feijenoord', 51.89418906, 4.52285569],
+        ['Ridderkerk, District 9',51.52223, 4.3606],
+        ['Vlaardingen, District 1', 51.912, 4.349],
+        ['Schiedamse weg, District 3', 51.913056, 4.432016],
+        ['Hillegersberg, District 5', 51.943636, 4.473540],
+        ['Hoogvliet, Disctrict 10', 51.860764, 4.354568],
+        ['Eendrachtsplein, Disctrict 4', 51.916778, 4.472920],
+        ['Kralingen, district 6', 51.924895, 4.507620],
+        ['Putten, district 11', 51.876507, 4.473627],
     ];
+  
+   
 
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 11.8,
+        zoom: 11.4,
         center: new google.maps.LatLng(51.924, 4.477),
 
     });
